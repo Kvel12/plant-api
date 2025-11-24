@@ -116,7 +116,7 @@ def download_from_gcs(bucket_name: str, blob_name: str, destination: Path) -> bo
         logger.info(f"GCS download success")
         return True
     except Exception as e:
-        logger.error(f"❌ GCS error: {str(e)}")
+        logger.error(f"GCS error: {str(e)}")
         return False
 
 def download_from_google_drive(file_id: str, destination: Path) -> bool:
@@ -166,31 +166,42 @@ def load_model_and_data():
         model_state.model = keras.models.load_model(str(model_path))
         logger.info(f"Model loaded: {model_state.model.count_params():,} params")
         
-        # Cargar CSV
-        geography_path = Path(GEOGRAPHY_CSV_PATH)
-        if not geography_path.exists():
-            success = download_from_gcs(GCS_BUCKET_NAME, GCS_GEOGRAPHY_BLOB, geography_path)
-            if not success:
-                success = download_from_google_drive(GEOGRAPHY_GDRIVE_ID, geography_path)
+        # ===== OBTENER CLASES DEL ARCHIVO DE ENTRENAMIENTO =====
+        # El modelo tiene output_shape que indica el número de clases
+        num_classes = model_state.model.output_shape[-1]
+        logger.info(f"Model expects {num_classes} classes")
         
-        if geography_path.exists():
-            model_state.geography_df = pd.read_csv(str(geography_path))
-            logger.info(f"Geography loaded: {len(model_state.geography_df)} records")
-        
-        # Clases del modelo
         model_state.classes = [
-            'train-Pomegranate healthy (P9a)', 'train-Lemon healthy (P10a)',
-            'train-Pongamia Pinnata healthy (P7a)', 'train-Bael diseased (P4b)',
-            'train-Mango healthy (P0a)', 'train-Basil healthy (P8)',
-            'train-Alstonia Scholaris diseased (P2a)', 'train-Chinar healthy (P11a)',
-            'train-Pomegranate diseased (P9b)', 'train-Jatropha healthy (P6a)',
-            'train-Alstonia Scholaris healthy (P2b)', 'train-Gauva healthy (P3a)',
-            'train-Chinar diseased (P11b)', 'train-Arjun diseased (P1a)',
-            'train-Jatropha diseased (P6b)', 'train-Lemon diseased (P10b)',
-            'train-Arjun healthy (P1b)', 'train-Jamun diseased (P5b)',
-            'train-Pongamia Pinnata diseased (P7b)', 'train-Jamun healthy (P5a)',
-            'train-Gauva diseased (P3b)', 'train-Mango diseased (P0b)'
+            'train-Alstonia Scholaris diseased (P2a)',
+            'train-Alstonia Scholaris healthy (P2b)', 
+            'train-Arjun diseased (P1a)',
+            'train-Arjun healthy (P1b)',
+            'train-Bael diseased (P4b)',
+            'train-Basil healthy (P8)',
+            'train-Chinar diseased (P11b)',
+            'train-Chinar healthy (P11a)',
+            'train-Gauva diseased (P3b)',
+            'train-Gauva healthy (P3a)',
+            'train-Jamun diseased (P5b)',
+            'train-Jamun healthy (P5a)',
+            'train-Jatropha diseased (P6b)',
+            'train-Jatropha healthy (P6a)',
+            'train-Lemon diseased (P10b)',
+            'train-Lemon healthy (P10a)',
+            'train-Mango diseased (P0b)',
+            'train-Mango healthy (P0a)',
+            'train-Pongamia Pinnata diseased (P7b)',
+            'train-Pongamia Pinnata healthy (P7a)',
+            'train-Pomegranate diseased (P9b)',
+            'train-Pomegranate healthy (P9a)'
         ]
+        
+        # VERIFICAR que el número coincida
+        if len(model_state.classes) != num_classes:
+            logger.error(f"Class mismatch! Model has {num_classes} but list has {len(model_state.classes)}")
+            raise ValueError(f"Number of classes mismatch: model={num_classes}, list={len(model_state.classes)}")
+        
+        logger.info(f"Classes loaded: {len(model_state.classes)} classes")
         
         return True
     except Exception as e:
