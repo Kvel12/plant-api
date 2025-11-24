@@ -69,13 +69,48 @@ app.add_middleware(
 # MODELOS PYDANTIC
 # ============================================================================
 
+class TopPrediction(BaseModel):
+    """Individual prediction with class name and confidence"""
+    class_name: str = Field(..., alias="class", description="Nombre de la clase")
+    confidence: float = Field(..., description="Confianza (0-1)")
+    
+    class Config:
+        populate_by_name = True
+
 class PredictionResponse(BaseModel):
     """Response model for predictions"""
     predicted_class: str = Field(..., description="Clase predicha")
     confidence: float = Field(..., description="Confianza de la predicción (0-1)")
-    top_predictions: List[Dict[str, float]] = Field(..., description="Top 3 predicciones")
-    plant_info: Optional[Dict] = Field(None, description="Información geográfica y botánica de la planta")
+    top_predictions: List[TopPrediction] = Field(..., description="Top 3 predicciones")
+    plant_info: Optional[Dict] = Field(None, description="Información geográfica y botánica")
     reference_image_base64: Optional[str] = Field(None, description="Imagen procesada en base64")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "predicted_class": "train-Mango diseased (P0b)",
+                "confidence": 0.9765,
+                "top_predictions": [
+                    {"class": "train-Mango diseased (P0b)", "confidence": 0.9765},
+                    {"class": "train-Mango healthy (P0a)", "confidence": 0.0214},
+                    {"class": "test-Bael diseased (P4b)", "confidence": 0.0021}
+                ],
+                "plant_info": {
+                    "plant_name": "Mango",
+                    "common_name": "Mango",
+                    "scientific_name": "Mangifera indica",
+                    "origin_country": "India",
+                    "origin_continent": "Asia",
+                    "crop_type": "Mango fruit",
+                    "coordinates": {
+                        "latitude": 20.5937,
+                        "longitude": 78.9629,
+                        "capital": "New Delhi"
+                    }
+                },
+                "reference_image_base64": "iVBORw0KGgoAAAANSUhEUgA..."
+            }
+        }
 
 class HealthResponse(BaseModel):
     """Health check response"""
@@ -365,9 +400,13 @@ async def predict(
         confidence = float(predictions[0][predicted_idx])
         predicted_class = model_state.classes[predicted_idx]
         
+        # Top 3 predicciones - CORREGIDO
         top3_idx = np.argsort(predictions[0])[-3:][::-1]
         top3_predictions = [
-            {"class": model_state.classes[i], "confidence": float(predictions[0][i])}
+            TopPrediction(
+                class_name=model_state.classes[i],
+                confidence=float(predictions[0][i])
+            )
             for i in top3_idx
         ]
         
