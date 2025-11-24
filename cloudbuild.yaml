@@ -1,15 +1,13 @@
 steps:
-  # Paso 1: Construir la imagen
+  # Construir imagen
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
       - 'kvel12/plant-leaves-api:latest'
-      - '-t'
-      - 'kvel12/plant-leaves-api:v1.0'
       - '.'
   
-  # Paso 2: Login a DockerHub
+  # Login a DockerHub
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
     args:
@@ -18,14 +16,10 @@ steps:
         echo $$DOCKER_PASSWORD | docker login -u $$DOCKER_USERNAME --password-stdin
     secretEnv: ['DOCKER_USERNAME', 'DOCKER_PASSWORD']
   
-  # Paso 3: Subir imagen a DockerHub
+  # Subir a DockerHub
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'kvel12/plant-leaves-api:latest']
-  
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'kvel12/plant-leaves-api:v1.0']
 
-# Configurar secretos
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/dockerhub-username/versions/latest
@@ -33,4 +27,8 @@ availableSecrets:
     - versionName: projects/$PROJECT_ID/secrets/dockerhub-password/versions/latest
       env: 'DOCKER_PASSWORD'
 
-timeout: 1800s  # 30 minutos
+timeout: 1800s
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'N1_HIGHCPU_8'
