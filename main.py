@@ -142,17 +142,14 @@ def download_from_google_drive(file_id: str, destination: Path) -> bool:
 def load_model_and_data():
     """Load model and geography data at startup"""
     try:
-        # Cargar modelo
+        # ===== CARGAR MODELO =====
         model_path = Path(MODEL_PATH)
         if not model_path.exists():
             logger.info("Model not found, downloading...")
-            
-            # Intentar Cloud Storage primero
             success = download_from_gcs(GCS_BUCKET_NAME, GCS_MODEL_BLOB, model_path)
             if success:
                 model_state.download_source = "cloud_storage"
             else:
-                # Respaldo: Google Drive
                 success = download_from_google_drive(MODEL_GDRIVE_ID, model_path)
                 if success:
                     model_state.download_source = "google_drive"
@@ -162,18 +159,41 @@ def load_model_and_data():
         else:
             model_state.download_source = "local_cache"
         
+        # Cargar modelo
         logger.info("Loading model...")
         model_state.model = keras.models.load_model(str(model_path))
         logger.info(f"Model loaded: {model_state.model.count_params():,} params")
         
-        # ===== OBTENER CLASES DEL ARCHIVO DE ENTRENAMIENTO =====
-        # El modelo tiene output_shape que indica el número de clases
+        # Obtener número de clases del modelo
         num_classes = model_state.model.output_shape[-1]
         logger.info(f"Model expects {num_classes} classes")
         
+        # ===== LAS 35 CLASES EXACTAS (del entrenamiento) =====
         model_state.classes = [
+            'test-Alstonia Scholaris diseased (P2a)',
+            'test-Alstonia Scholaris healthy (P2b)',
+            'test-Arjun diseased (P1a)',
+            'test-Arjun healthy (P1b)',
+            'test-Bael diseased (P4b)',
+            'test-Basil healthy (P8)',
+            'test-Chinar diseased (P11b)',
+            'test-Chinar healthy (P11a)',
+            'test-Gauva diseased (P3b)',
+            'test-Gauva healthy (P3a)',
+            'test-Jamun diseased (P5b)',
+            'test-Jamun healthy (P5a)',
+            'test-Jatropha diseased (P6b)',
+            'test-Jatropha healthy (P6a)',
+            'test-Lemon diseased (P10b)',
+            'test-Lemon healthy (P10a)',
+            'test-Mango diseased (P0b)',
+            'test-Mango healthy (P0a)',
+            'test-Pomegranate diseased (P9b)',
+            'test-Pomegranate healthy (P9a)',
+            'test-Pongamia Pinnata diseased (P7b)',
+            'test-Pongamia Pinnata healthy (P7a)',
             'train-Alstonia Scholaris diseased (P2a)',
-            'train-Alstonia Scholaris healthy (P2b)', 
+            'train-Alstonia Scholaris healthy (P2b)',
             'train-Arjun diseased (P1a)',
             'train-Arjun healthy (P1b)',
             'train-Bael diseased (P4b)',
@@ -184,33 +204,46 @@ def load_model_and_data():
             'train-Gauva healthy (P3a)',
             'train-Jamun diseased (P5b)',
             'train-Jamun healthy (P5a)',
-            'train-Jatropha diseased (P6b)',
-            'train-Jatropha healthy (P6a)',
-            'train-Lemon diseased (P10b)',
-            'train-Lemon healthy (P10a)',
-            'train-Mango diseased (P0b)',
-            'train-Mango healthy (P0a)',
-            'train-Pongamia Pinnata diseased (P7b)',
-            'train-Pongamia Pinnata healthy (P7a)',
-            'train-Pomegranate diseased (P9b)',
-            'train-Pomegranate healthy (P9a)'
+            'train-Jatropha diseased (P6b)'
         ]
         
-        # VERIFICAR que el número coincida
+        # VERIFICAR
         if len(model_state.classes) != num_classes:
-            logger.error(f"Class mismatch! Model has {num_classes} but list has {len(model_state.classes)}")
-            raise ValueError(f"Number of classes mismatch: model={num_classes}, list={len(model_state.classes)}")
+            logger.error(f"Mismatch: model has {num_classes}, list has {len(model_state.classes)}")
+            raise ValueError(f"Class count mismatch")
         
-        logger.info(f"Classes loaded: {len(model_state.classes)} classes")
+        logger.info(f"Classes configured: {len(model_state.classes)} classes")
+        logger.info(f"First 3: {model_state.classes[:3]}")
+        logger.info(f"Last 3: {model_state.classes[-3:]}")
         
+        # ===== CARGAR CSV DE GEOGRAFÍA =====
+        geography_path = Path(GEOGRAPHY_CSV_PATH)
+        if not geography_path.exists():
+            success = download_from_gcs(GCS_BUCKET_NAME, GCS_GEOGRAPHY_BLOB, geography_path)
+            if not success:
+                success = download_from_google_drive(GEOGRAPHY_GDRIVE_ID, geography_path)
+        
+        if geography_path.exists():
+            model_state.geography_df = pd.read_csv(str(geography_path))
+            logger.info(f"Geography loaded: {len(model_state.geography_df)} records")
+        
+        logger.info(f"✅ API ready")
         return True
+        
     except Exception as e:
         logger.error(f"Load error: {str(e)}")
         return False
 
 def extract_plant_name(class_label: str) -> str:
     """Extract plant name from class label"""
-    label = class_label.replace('train-', '')
+    # Remover prefijos: test-, train-, valid-
+    label = class_label
+    for prefix in ['test-', 'train-', 'valid-']:
+        if label.startswith(prefix):
+            label = label[len(prefix):]
+            break
+    
+    # Remover healthy/diseased y código (P#)
     plant_name = label.split(' healthy')[0].split(' diseased')[0]
     return plant_name.strip()
 
