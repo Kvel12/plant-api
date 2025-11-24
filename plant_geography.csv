@@ -1,0 +1,67 @@
+split,class,plant,num_images,origin_country,origin_continent,crop_type,common_name,scientific_name
+train,Pomegranate healthy (P9a),Pomegranate,277,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+train,Lemon healthy (P10a),Lemon,149,India,Asia,Lemon fruit,Lemon,Citrus limon
+train,Pongamia Pinnata healthy (P7a),Pongamia Pinnata,312,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+train,Bael diseased (P4b),Bael,107,India,Asia,Bael fruit,Wood apple,Aegle marmelos
+train,Mango healthy (P0a),Mango,159,India,Asia,Mango fruit,Mango,Mangifera indica
+train,Basil healthy (P8),Basil,137,India,Asia,Herb,Sweet basil,Ocimum basilicum
+train,Alstonia Scholaris diseased (P2a),Alstonia Scholaris,244,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+train,Chinar healthy (P11a),Chinar,93,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+train,Pomegranate diseased (P9b),Pomegranate,261,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+train,Jatropha healthy (P6a),Jatropha,123,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+train,Alstonia Scholaris healthy (P2b),Alstonia Scholaris,168,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+train,Gauva healthy (P3a),Gauva,267,Brazil,South America,Guava fruit,Guava,Psidium guajava
+train,Chinar diseased (P11b),Chinar,110,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+train,Arjun diseased (P1a),Arjun,222,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+train,Jatropha diseased (P6b),Jatropha,114,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+train,Lemon diseased (P10b),Lemon,67,India,Asia,Lemon fruit,Lemon,Citrus limon
+train,Arjun healthy (P1b),Arjun,210,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+train,Jamun diseased (P5b),Jamun,335,India,Asia,Java plum,Black plum,Syzygium cumini
+train,Pongamia Pinnata diseased (P7b),Pongamia Pinnata,265,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+train,Jamun healthy (P5a),Jamun,268,India,Asia,Java plum,Black plum,Syzygium cumini
+train,Gauva diseased (P3b),Gauva,131,Brazil,South America,Guava fruit,Guava,Psidium guajava
+train,Mango diseased (P0b),Mango,255,India,Asia,Mango fruit,Mango,Mangifera indica
+valid,Pomegranate healthy (P9a),Pomegranate,5,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+valid,Lemon healthy (P10a),Lemon,5,India,Asia,Lemon fruit,Lemon,Citrus limon
+valid,Pongamia Pinnata healthy (P7a),Pongamia Pinnata,5,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+valid,Bael diseased (P4b),Bael,5,India,Asia,Bael fruit,Wood apple,Aegle marmelos
+valid,Mango healthy (P0a),Mango,5,India,Asia,Mango fruit,Mango,Mangifera indica
+valid,Basil healthy (P8),Basil,5,India,Asia,Herb,Sweet basil,Ocimum basilicum
+valid,Alstonia Scholaris diseased (P2a),Alstonia Scholaris,5,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+valid,Chinar healthy (P11a),Chinar,5,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+valid,Pomegranate diseased (P9b),Pomegranate,5,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+valid,Jatropha healthy (P6a),Jatropha,5,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+valid,Alstonia Scholaris healthy (P2b),Alstonia Scholaris,5,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+valid,Gauva healthy (P3a),Gauva,5,Brazil,South America,Guava fruit,Guava,Psidium guajava
+valid,Chinar diseased (P11b),Chinar,5,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+valid,Arjun diseased (P1a),Arjun,5,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+valid,Jatropha diseased (P6b),Jatropha,5,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+valid,Lemon diseased (P10b),Lemon,5,India,Asia,Lemon fruit,Lemon,Citrus limon
+valid,Arjun healthy (P1b),Arjun,5,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+valid,Jamun diseased (P5b),Jamun,5,India,Asia,Java plum,Black plum,Syzygium cumini
+valid,Pongamia Pinnata diseased (P7b),Pongamia Pinnata,5,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+valid,Jamun healthy (P5a),Jamun,5,India,Asia,Java plum,Black plum,Syzygium cumini
+valid,Gauva diseased (P3b),Gauva,5,Brazil,South America,Guava fruit,Guava,Psidium guajava
+valid,Mango diseased (P0b),Mango,5,India,Asia,Mango fruit,Mango,Mangifera indica
+test,Pomegranate healthy (P9a),Pomegranate,5,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+test,Lemon healthy (P10a),Lemon,5,India,Asia,Lemon fruit,Lemon,Citrus limon
+test,Pongamia Pinnata healthy (P7a),Pongamia Pinnata,5,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+test,Bael diseased (P4b),Bael,5,India,Asia,Bael fruit,Wood apple,Aegle marmelos
+test,Mango healthy (P0a),Mango,5,India,Asia,Mango fruit,Mango,Mangifera indica
+test,Basil healthy (P8),Basil,5,India,Asia,Herb,Sweet basil,Ocimum basilicum
+test,Alstonia Scholaris diseased (P2a),Alstonia Scholaris,5,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+test,Chinar healthy (P11a),Chinar,5,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+test,Pomegranate diseased (P9b),Pomegranate,5,Iran,Asia,Pomegranate fruit,Pomegranate,Punica granatum
+test,Jatropha healthy (P6a),Jatropha,5,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+test,Alstonia Scholaris healthy (P2b),Alstonia Scholaris,5,India,Asia,Medicinal tree,Blackboard tree,Alstonia scholaris
+test,Gauva healthy (P3a),Gauva,5,Brazil,South America,Guava fruit,Guava,Psidium guajava
+test,Chinar diseased (P11b),Chinar,5,Greece,Europe,Ornamental tree,Oriental plane,Platanus orientalis
+test,Arjun diseased (P1a),Arjun,5,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+test,Jatropha diseased (P6b),Jatropha,5,Mexico,North America,Biofuel crop,Physic nut,Jatropha curcas
+test,Lemon diseased (P10b),Lemon,5,India,Asia,Lemon fruit,Lemon,Citrus limon
+test,Arjun healthy (P1b),Arjun,5,India,Asia,Medicinal tree,Arjun tree,Terminalia arjuna
+test,Jamun diseased (P5b),Jamun,5,India,Asia,Java plum,Black plum,Syzygium cumini
+test,Pongamia Pinnata diseased (P7b),Pongamia Pinnata,5,India,Asia,Biofuel tree,Indian beech,Pongamia pinnata
+test,Jamun healthy (P5a),Jamun,5,India,Asia,Java plum,Black plum,Syzygium cumini
+test,Gauva diseased (P3b),Gauva,5,Brazil,South America,Guava fruit,Guava,Psidium guajava
+test,Mango diseased (P0b),Mango,5,India,Asia,Mango fruit,Mango,Mangifera indica
